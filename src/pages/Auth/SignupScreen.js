@@ -11,11 +11,13 @@ import { emailValidator } from '../../helpers/emailValidator'
 import { passwordValidator } from '../../helpers/passwordValidator'
 import { nameValidator } from '../../helpers/nameValidator'
 import { signup } from '../../functions'
+import { useDispatch } from 'react-redux'
 
 export default function RegisterScreen({ navigation }) {
 	const [name, setName] = useState({ value: '', error: '' })
 	const [email, setEmail] = useState({ value: '', error: '' })
 	const [password, setPassword] = useState({ value: '', error: '' })
+	const dispatch = useDispatch()
 
 	const onSignUpPressed = () => {
 		const nameError = nameValidator(name.value)
@@ -34,7 +36,9 @@ export default function RegisterScreen({ navigation }) {
 		}
 		// Signup here
 		//signup(signupPayload)
-		signup(signupPayload)
+		const user = signup(signupPayload);
+		dispatch(saveUser(user))
+		dispatch(authenticate({ loggedIn: true, checked: true }))
 		// navigation.reset({
 		// 	index: 0,
 		// 	routes: [{ name: 'Dashboard' }],

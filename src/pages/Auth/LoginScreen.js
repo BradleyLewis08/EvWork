@@ -12,15 +12,13 @@ import { emailValidator } from '../../helpers/emailValidator'
 import { passwordValidator } from '../../helpers/passwordValidator'
 import { login } from '../../functions'
 import { useDispatch } from 'react-redux'
-import { authenticate, saveMe } from '../../slices/app.slice'
+import { authenticate, saveUser } from '../../slices/app.slice'
 
 export default function LoginScreen({ navigation }) {
 	const dispatch = useDispatch()
 	const [email, setEmail] = useState({ value: '', error: '' })
 	const [password, setPassword] = useState({ value: '', error: '' })
 	const [user, setUser] = useState(null)
-
-	const dispatch = useDispatch()
 
 	const onLoginPressed = () => {
 		const emailError = emailValidator(email.value)
@@ -40,8 +38,8 @@ export default function LoginScreen({ navigation }) {
 
 	useEffect(() => {
 		if (user) {
+			dispatch(saveUser(user))
 			dispatch(authenticate({ loggedIn: true, checked: true }))
-			dispatch(saveMe(user))
 		}
 	}, [user]);
 

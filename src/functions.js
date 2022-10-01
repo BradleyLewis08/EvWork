@@ -18,9 +18,9 @@ async function login(email, password) {
 
 async function signup(data) {
   const usersCol = collection(db, "Users")
-  const res = await addDoc(usersCol, data)
+  const doc = await addDoc(usersCol, data)
   console.log("Added document with ID: ", res.id)
-  return res
+  return res.data()
 }
 
 export { login, signup }
