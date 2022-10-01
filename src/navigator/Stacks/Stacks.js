@@ -4,8 +4,11 @@ import { colors } from 'theme'
 import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
+import LoginScreen from '../../pages/Auth/LoginScreen'
+import SignupScreen from '../../pages/Auth/SignupScreen'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
+import { Text } from 'react-native'
 
 // ------------------------------------
 // Constants
@@ -74,3 +77,34 @@ export const ProfileNavigator = () => (
     />
   </Stack.Navigator>
 )
+
+const L = () => (
+  <Text>
+    Login
+  </Text>
+)
+
+export const AuthNavigator = () => (
+  <Stack.Navigator
+    initialRouteName="Auth"
+    screenOptions={navigationProps}
+  >
+    <Stack.Screen
+      name="LoginScreen"
+      component={LoginScreen}
+      options={{
+        title: 'Auth',
+        animationTypeForReplace: 'pop',
+      }}
+    />
+    <Stack.Screen
+      name="SignupScreen"
+      component={SignupScreen}
+      options={{
+        title: 'Auth',
+        animationTypeForReplace: 'push',
+      }}
+    />
+  </Stack.Navigator>
+)
+
