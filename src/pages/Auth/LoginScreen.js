@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../../components/Background'
@@ -10,10 +10,16 @@ import BackButton from '../../components/BackButton'
 import { theme } from '../../core/theme'
 import { emailValidator } from '../../helpers/emailValidator'
 import { passwordValidator } from '../../helpers/passwordValidator'
+import { login } from '../../functions'
+import { useDispatch } from 'react-redux'
+import { authenticate, saveMe } from '../../slices/app.slice'
 
 export default function LoginScreen({ navigation }) {
 	const [email, setEmail] = useState({ value: '', error: '' })
 	const [password, setPassword] = useState({ value: '', error: '' })
+	const [user, setUser] = useState(null)
+
+	const dispatch = useDispatch()
 
 	const onLoginPressed = () => {
 		const emailError = emailValidator(email.value)
@@ -23,11 +29,20 @@ export default function LoginScreen({ navigation }) {
 			setPassword({ ...password, error: passwordError })
 			return
 		}
-		navigation.reset({
-			index: 0,
-			routes: [{ name: 'Dashboard' }],
-		})
+
+		setUser(login(email, password))
+		// navigation.reset({
+		// 	index: 0,
+		// 	routes: [{ name: 'Dashboard' }],
+		// })
 	}
+
+	useEffect(() => {
+		if (user) {
+			dispatch(authenticate({ loggedIn: true, checked: true }))
+			dispatch(saveMe(user))
+		}
+	}, [user]);
 
 	return (
 		<Background>

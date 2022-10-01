@@ -1,24 +1,26 @@
-import { collection, getDocs } from 'firebase/firestore/lite'
+import { collection, getDocs, addDoc } from 'firebase/firestore'
 
-const db = require('./db')
+import { db } from './db'
 
 
-async function login(username, password) {
+async function login(email, password) {
   const usersCol = collection(db, 'Users')
   const usersSnapshot = await getDocs(usersCol)
-  const usersList = usersSnapshot.docs.map((doc) => doc.data())
-  usersList.forEach((user) => {
-    if (user.password === password && user.username === username) {
-      return user
+  for (const userDoc of usersSnapshot.docs) {
+    if (userDoc.data().password === password.value && userDoc.data().email === email.value) {
+      console.log("Logged into user with id %s", userDoc.id)
+      return userDoc.data()
     }
-  })
-
+  }
+  console.log("User not found")
   return null
 }
 
 async function signup(data) {
-  const res = db.collection('Users').add(data)
+  const usersCol = collection(db, "Users")
+  const res = await addDoc(usersCol, data)
+  console.log("Added document with ID: ", res.id)
   return res
 }
 
-module.exports = { login, signup }
+export { login, signup }

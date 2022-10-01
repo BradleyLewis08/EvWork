@@ -10,6 +10,7 @@ import BackButton from '../../components/BackButton'
 import { emailValidator } from '../../helpers/emailValidator'
 import { passwordValidator } from '../../helpers/passwordValidator'
 import { nameValidator } from '../../helpers/nameValidator'
+import { signup } from '../../functions'
 
 export default function RegisterScreen({ navigation }) {
 	const [name, setName] = useState({ value: '', error: '' })
@@ -32,10 +33,12 @@ export default function RegisterScreen({ navigation }) {
 			password: password.value,
 		}
 		// Signup here
-		navigation.reset({
-			index: 0,
-			routes: [{ name: 'Dashboard' }],
-		})
+		//signup(signupPayload)
+		signup(signupPayload)
+		// navigation.reset({
+		// 	index: 0,
+		// 	routes: [{ name: 'Dashboard' }],
+		// })
 	}
 
 	return (
