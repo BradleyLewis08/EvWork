@@ -23,8 +23,8 @@ const appSlice = createSlice({
       state.loggedIn = payload.loggedIn
       state.checked = payload.checked
     },
-    saveMe: (state, { payload }) => {
-      state.me = payload.me
+    saveUser: (state, { payload }) => {
+      state.user = payload.user
     },
   },
 })

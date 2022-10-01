@@ -8,22 +8,16 @@ import DrawerNavigator from './Drawer'
 import { AuthNavigator } from './Stacks'
 
 const Navigator = () => {
-  const { checked, loggedIn } = useSelector((state) => state.app)
+  const { loggedIn } = useSelector((state) => state.app)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(authenticate({ loggedIn: false, checked: true }))
-  }, [])
 
   const Router = loggedIn ? DrawerNavigator : AuthNavigator
 
-  return checked ? (
+  return (
     <NavigationContainer>
       {/* <Text>Loading...</Text> */}
       <Router />
     </NavigationContainer>
-  ) : (
-    <Text>Loading...</Text>
   )
 }
 

@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { authenticate, saveMe } from '../../slices/app.slice'
 
 export default function LoginScreen({ navigation }) {
+	const dispatch = useDispatch()
 	const [email, setEmail] = useState({ value: '', error: '' })
 	const [password, setPassword] = useState({ value: '', error: '' })
 	const [user, setUser] = useState(null)
