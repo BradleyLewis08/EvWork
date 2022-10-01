@@ -5,21 +5,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
 
 import DrawerNavigator from './Drawer'
+import { AuthNavigator } from './Stacks'
 
 const Navigator = () => {
   const { checked, loggedIn } = useSelector((state) => state.app)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(authenticate({ loggedIn: true, checked: true }))
+    dispatch(authenticate({ loggedIn: false, checked: true }))
   }, [])
 
-  // TODO: switch router by loggedIn state
-  console.log('[##] loggedIn', loggedIn)
+  const Router = loggedIn ? DrawerNavigator : AuthNavigator
 
   return checked ? (
     <NavigationContainer>
-      <DrawerNavigator />
+      {/* <Text>Loading...</Text> */}
+      <Router />
     </NavigationContainer>
   ) : (
     <Text>Loading...</Text>
