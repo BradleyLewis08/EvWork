@@ -1,3 +1,3 @@
-import MyChargers from './MyChargers.js'
+import { MyChargers, Registration, ReviewPage } from './MyChargers.js'
 
-export default MyChargers
+export { MyChargers, Registration, ReviewPage }

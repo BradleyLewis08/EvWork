@@ -5,7 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import { colors } from 'theme'
 
-import MyChargers from '../../pages/MyChargers'
+import {
+  MyChargers,
+  Registration,
+  ReviewPage,
+} from '../../pages/MyChargers/MyChargers'
 
 // stack navigators
 import { HomeNavigator, ProfileNavigator } from '../Stacks'
@@ -32,6 +36,20 @@ const MyChargerNavigator = () => {
         component={MyChargers}
         options={({ navigation }) => ({
           title: 'My Chargers',
+        })}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Registration}
+        options={({ navigation }) => ({
+          title: 'Register',
+        })}
+      />
+      <Stack.Screen
+        name="Review"
+        component={ReviewPage}
+        options={({ navigation }) => ({
+          title: 'In Review',
         })}
       />
     </Stack.Navigator>
