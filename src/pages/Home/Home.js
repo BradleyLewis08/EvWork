@@ -6,7 +6,7 @@ import {
 import { ActivityIndicator } from 'react-native-paper'
 import Button from 'components/Button'
 import { colors } from 'theme'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
 import Map from 'components/Map'
 import GoogleAutoComplete from '../../components/GoogleAutocomplete'
@@ -65,8 +65,10 @@ const Home = ({ navigation }) => {
   const [coords, setCoords] = useState([])
   const [finding, setFinding] = useState(false)
   const logout = () => {
-    console.log("logout")
+    console.log(curr_user)
     dispatch(authenticate({ loggedIn: false, checked: true }))
+    dispatch(saveUser({ user: {} }))
+    finishCharge(curr_user.user_data.charges[0])
   }
   return (
     <View style={styles.root}>

@@ -29,7 +29,8 @@ export default function LoginScreen({ navigation }) {
 			return
 		}
 
-		setUser(login(email, password))
+		const temp = login(email, password)
+		temp.then((prom) => setUser(prom))
 		// navigation.reset({
 		// 	index: 0,
 		// 	routes: [{ name: 'Dashboard' }],
@@ -38,7 +39,7 @@ export default function LoginScreen({ navigation }) {
 
 	useEffect(() => {
 		if (user) {
-			dispatch(saveUser(user))
+			dispatch(saveUser({ user: user }))
 			dispatch(authenticate({ loggedIn: true, checked: true }))
 		}
 	}, [user]);

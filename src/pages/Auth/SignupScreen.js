@@ -12,6 +12,7 @@ import { passwordValidator } from '../../helpers/passwordValidator'
 import { nameValidator } from '../../helpers/nameValidator'
 import { signup } from '../../functions'
 import { useDispatch } from 'react-redux'
+import { authenticate, saveUser } from '../../slices/app.slice'
 
 export default function RegisterScreen({ navigation }) {
 	const [name, setName] = useState({ value: '', error: '' })
@@ -37,7 +38,7 @@ export default function RegisterScreen({ navigation }) {
 		// Signup here
 		//signup(signupPayload)
 		const user = signup(signupPayload);
-		dispatch(saveUser(user))
+		dispatch(saveUser({ user: user }))
 		dispatch(authenticate({ loggedIn: true, checked: true }))
 		// navigation.reset({
 		// 	index: 0,
