@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import { colors } from 'theme'
 
-import MyChargers from 'pages/MyChargers'
+import MyChargers from '../../pages/MyChargers'
 
 // stack navigators
 import { HomeNavigator, ProfileNavigator } from '../Stacks'

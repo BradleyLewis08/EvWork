@@ -4,7 +4,6 @@ import { colors } from 'theme'
 import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
-import MyChargers from 'pages/MyChargers'
 import LoginScreen from '../../pages/Auth/LoginScreen'
 import SignupScreen from '../../pages/Auth/SignupScreen'
 import HeaderLeft from './HeaderLeft'
@@ -21,7 +20,7 @@ const navigationProps = {
   // headerTintColor: 'white',
   // headerStyle: { backgroundColor: colors.darkPurple },
   // headerTitleStyle: { fontSize: 18 },
-  headerShown: false
+  headerShown: false,
 }
 
 // ------------------------------------

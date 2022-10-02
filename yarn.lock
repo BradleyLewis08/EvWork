@@ -1130,6 +1130,11 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo-google-fonts/lato@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/lato/-/lato-0.2.2.tgz#777a757a74c03a2677ed33dacd7df61cd65b735e"
+  integrity sha512-axw+QWJYyDHuj/W0364OFRu5MyNEU332up1bE6o4K7fP0e0mSDgocof7Eip4AP65SmP8zsPIR0LtJezORnkDBw==
+
 "@expo/apple-utils@0.0.0-alpha.26":
   version "0.0.0-alpha.26"
   resolved "https://registry.npmjs.org/@expo/apple-utils/-/apple-utils-0.0.0-alpha.26.tgz"
