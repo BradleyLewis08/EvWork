@@ -13,7 +13,7 @@ import { colors } from 'theme'
 import { useNavigation } from '@react-navigation/native'
 import { Button as PaperButton } from 'react-native-paper'
 import { theme } from '../../core/theme'
-import { registerCharger } from '../../functions'
+import { createNewChargingPoint, registerCharger } from '../../functions'
 import { useSelector } from 'react-redux'
 
 export default function Button({ mode, style, ...props }) {
@@ -116,6 +116,7 @@ export const Registration = ({ route, navigation }) => {
   const { curr_user } = useSelector((state) => state.app)
   const startReview = (navigation) => {
     registerCharger(curr_user)
+    createNewChargingPoint(curr_user)
     navigation.navigate('Review')
   }
   return (

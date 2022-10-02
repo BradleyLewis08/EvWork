@@ -66,4 +66,6 @@ const App = () => {
   }
 }
 
+console.disableYellowBox = true
+
 export default App
