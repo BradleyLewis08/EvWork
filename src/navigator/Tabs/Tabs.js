@@ -66,7 +66,7 @@ const TabNavigator = () => (
             return (
               <FontIcon
                 name="search"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? '#48BB78' : colors.gray}
                 size={20}
                 solid
               />
@@ -75,7 +75,7 @@ const TabNavigator = () => (
             return (
               <FontIcon
                 name="history"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? '#48BB78' : colors.gray}
                 size={20}
                 solid
               />
@@ -84,7 +84,7 @@ const TabNavigator = () => (
             return (
               <FontIcon
                 name="home"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? '#48BB78' : colors.gray}
                 size={20}
                 solid
               />
@@ -93,7 +93,7 @@ const TabNavigator = () => (
             return (
               <FontIcon
                 name="user"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? '#48BB78' : colors.gray}
                 size={20}
                 solid
               />
@@ -104,7 +104,7 @@ const TabNavigator = () => (
       },
     })}
     tabBarOptions={{
-      activeTintColor: colors.lightPurple,
+      activeTintColor: '#48BB78',
       inactiveTintColor: colors.gray,
       style: {
         // backgroundColor: 'white',
