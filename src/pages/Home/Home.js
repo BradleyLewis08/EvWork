@@ -5,9 +5,11 @@ import {
 } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
 import Map from 'components/Map'
+import { createCharge, createNewChargingPoint, finishCharge } from '../../functions'
+import { saveUser } from '../../slices/app.slice'
 
 const styles = StyleSheet.create({
   root: {
@@ -32,8 +34,10 @@ const Home = ({ navigation }) => {
   const dispatch = useDispatch()
   const [coords, setCoords] = useState([])
   const logout = () => {
-    console.log("logout")
+    console.log(curr_user)
     dispatch(authenticate({ loggedIn: false, checked: true }))
+    dispatch(saveUser({ user: {} }))
+    finishCharge(curr_user.user_data.charges[0])
   }
   return (
     <View style={styles.root}>

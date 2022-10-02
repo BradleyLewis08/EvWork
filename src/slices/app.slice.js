@@ -8,7 +8,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   checked: false,
   loggedIn: false,
-  me: {},
+  curr_user: {},
 }
 
 // ------------------------------------
@@ -24,7 +24,7 @@ const appSlice = createSlice({
       state.checked = payload.checked
     },
     saveUser: (state, { payload }) => {
-      state.user = payload.user
+      state.curr_user = payload.user
     },
   },
 })
