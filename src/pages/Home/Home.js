@@ -1,7 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react'
 import PropTypes, { resetWarningCache } from 'prop-types'
 import {
-  StyleSheet, Text, View, StatusBar, Dimensions, TouchableOpacity, KeyboardAvoidingView, Keyboard, Platform
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Dimensions,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
 } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
@@ -14,11 +22,12 @@ import ChargerDetailsCard from '../../components/ChargerDetailsCard'
 import CHARGING_LEVELS from '../../data/chargers'
 import Hr from '../../components/styling/Hr'
 import { RECENT_LOCATIONS, HARVARD_LOCATION } from '../../data/locations'
-import { ActivityIndicator, Modal, Portal, Provider } from 'react-native-paper';
+import { ActivityIndicator, Modal, Portal, Provider } from 'react-native-paper'
 import { images } from '../../theme'
 import { Image } from 'react-native-elements'
 import { useFocusEffect } from '@react-navigation/native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import moment from 'moment'
 
 const styles = StyleSheet.create({
   root: {
@@ -70,59 +79,50 @@ const styles = StyleSheet.create({
 })
 
 const CURRENT_ORIGIN = {
-  "latitude": 42.360091,
-  "longitude": -71.09416
+  latitude: 42.360091,
+  longitude: -71.09416,
 }
 
 function formatDuration(duration) {
   const hours = Math.floor(duration / 60)
   const minutes = Math.round(duration % 60)
   if (hours > 0) {
-    return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+    return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${
+      minutes > 1 ? 's' : ''
+    }`
   } else {
     return `${minutes} minute${minutes > 1 ? 's' : ''}`
   }
 }
-
 
 function FoundView({ duration }) {
   duration = formatDuration(duration)
   return (
     <>
       <Text style={styles.title}>Navigate</Text>
-      <Text>
-        Time
-      </Text>
-      <Hr
-        margins={10}
-      />
-      <View
-        style={styles.horizonalContainer}
-      >
+      <Text>Time</Text>
+      <Hr margins={10} />
+      <View style={styles.horizonalContainer}>
         <Text
           style={{
             fontSize: 24,
             fontWeight: 'bold',
           }}
         >
-          2:30pm
+          {moment().format('LT')}
         </Text>
         <Text>
           You are <Text style={{ fontWeight: 'bold' }}>{duration}</Text> away
         </Text>
       </View>
       <View style={styles.foundContainer}>
-        <ChargerDetailsCard
-          level="Level 2"
-          chargerType="JuiceBox40"
-        />
+        <ChargerDetailsCard level="Level 2" chargerType="JuiceBox40" />
       </View>
     </>
   )
 }
 
 const Home = ({ navigation }) => {
-
   function DrivingView() {
     return (
       <>
@@ -139,13 +139,17 @@ const Home = ({ navigation }) => {
       </>
     )
   }
-  const [destination, setDestination] = useState(null);
+  const [destination, setDestination] = useState(null)
   function FindingView() {
     return (
       <View style={styles.findingContainer}>
-        <ActivityIndicator size="large" color="#48BB78" style={{
-          marginBottom: 20,
-        }} />
+        <ActivityIndicator
+          size="large"
+          color="#48BB78"
+          style={{
+            marginBottom: 20,
+          }}
+        />
         <Text style={styles.findingText}>Hang tight!</Text>
       </View>
     )
@@ -178,15 +182,17 @@ const Home = ({ navigation }) => {
   }
 
   function atBeginning() {
-    return location.latitude === CURRENT_ORIGIN.latitude && location.longitude === CURRENT_ORIGIN.longitude
+    return (
+      location.latitude === CURRENT_ORIGIN.latitude &&
+      location.longitude === CURRENT_ORIGIN.longitude
+    )
   }
 
   useFocusEffect(
     React.useCallback(() => {
       Reset()
-    }, [])
+    }, []),
   )
-
 
   useEffect(() => {
     if (!atBeginning()) {
@@ -213,21 +219,43 @@ const Home = ({ navigation }) => {
   return (
     <Provider>
       <Portal>
-        <Modal visible={confirmationVisible} onDismiss={() => setConfirmationVisible(false)}>
-          <View style={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10 }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Confirm Charger?</Text>
-            <Text style={{ marginBottom: 20 }}>A hold of $23.15 will be held on your card ending in 3938.</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Modal
+          visible={confirmationVisible}
+          onDismiss={() => setConfirmationVisible(false)}
+        >
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 20,
+              margin: 20,
+              borderRadius: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+            >
+              Confirm Charger?
+            </Text>
+            <Text style={{ marginBottom: 20 }}>
+              A hold of $23.15 will be held on your card ending in 3938.
+            </Text>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
               <Button
                 style={{ width: '45%', backgroundColor: 'red' }}
-                onPress={() => setConfirmationVisible(false)}>Cancel
+                onPress={() => setConfirmationVisible(false)}
+              >
+                Cancel
               </Button>
               <Button
                 style={{ width: '45%' }}
                 onPress={() => {
                   setConfirmationVisible(false)
                   navigateToCharger()
-                }}>Confirm
+                }}
+              >
+                Confirm
               </Button>
             </View>
           </View>
@@ -241,76 +269,71 @@ const Home = ({ navigation }) => {
           destination={destination}
         />
         <View
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.bottomContainer}
         >
           {!found ? (
             <>
-              <Text
-                style={styles.title}
-              >
-                Let's charge.
-              </Text>
+              <Text style={styles.title}>Let's charge.</Text>
               <GoogleAutoComplete
                 setLocation={setLocation}
                 setIsFocused={setIsFocused}
               />
-              {
-                (!isFocused && atBeginning()) && (
-                  <View
+              {!isFocused && atBeginning() && (
+                <View
+                  style={{
+                    height: 260,
+                  }}
+                >
+                  <Text
                     style={{
-                      height: 260,
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      marginBottom: 5,
                     }}
                   >
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        marginBottom: 20,
-                      }}
-                    >
-                      Recent
-                    </Text>
-                    {
-                      RECENT_LOCATIONS.map((location, index) => (
-                        <>
-                          <Hr />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              marginBottom: 2,
-                            }}
-                          >
-                            <Text
-                              style={{
-                                marginRight: 10,
-                              }}
-                            >
-                              <FontAwesome name="map-marker" size={18} color="black" />
-                              {' '}
-                              {' '}
-                            </Text>
-                            {location.title}
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              color: 'gray',
-                              marginBottom: 20,
-                            }}
-                          >
-                            {location.subtitle}
-                          </Text>
-                        </>
-                      ))
-                    }
-                  </View>
-                )
-              }
+                    Recent
+                  </Text>
+                  <Hr />
+                  {RECENT_LOCATIONS.map((location, index) => (
+                    <View styles={{ display: 'flex' }}>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          marginTop: 5,
+                          marginBottom: 2,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginRight: 10,
+                          }}
+                        >
+                          <FontAwesome
+                            name="map-marker"
+                            size={18}
+                            color="#8DA697"
+                          />{' '}
+                        </Text>
+                        {location.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          color: 'gray',
+                          marginBottom: 5,
+                        }}
+                      >
+                        {location.subtitle}
+                      </Text>
+                      <Hr />
+                    </View>
+                  ))}
+                </View>
+              )}
               {finding ? (
                 <FindingView />
-              )
-                :
+              ) : (
                 chargeList.map((level, index) => (
                   <ChargerCard
                     key={index}
@@ -322,7 +345,7 @@ const Home = ({ navigation }) => {
                     price={level.price}
                   />
                 ))
-              }
+              )}
             </>
           ) : driving ? (
             <>
@@ -336,25 +359,21 @@ const Home = ({ navigation }) => {
                 I've Arrived
               </Button>
             </>
-          ) :
-            (
-              <>
-                <FoundView
-                  duration={duration}
-                />
-                <Button
-                  onPress={() => {
-                    setDriving(true)
-                  }}
-                >
-                  Navigate
-                </Button>
-              </>
-            )
-          }
+          ) : (
+            <>
+              <FoundView duration={duration} />
+              <Button
+                onPress={() => {
+                  setDriving(true)
+                }}
+              >
+                Navigate
+              </Button>
+            </>
+          )}
         </View>
       </View>
-    </Provider >
+    </Provider>
   )
 }
 
