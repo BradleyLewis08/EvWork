@@ -182,13 +182,6 @@ const Home = ({ navigation }) => {
     setDestination(null)
   }
 
-  const logout = () => {
-    console.log(curr_user)
-    dispatch(authenticate({ loggedIn: false, checked: true }))
-    dispatch(saveUser({ user: {} }))
-    finishCharge(curr_user.user_data.charges[0])
-  }
-
   function atBeginning() {
     return (
       location.latitude === CURRENT_ORIGIN.latitude &&

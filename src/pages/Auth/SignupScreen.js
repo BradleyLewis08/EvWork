@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../../components/Background'
@@ -19,6 +19,7 @@ export default function RegisterScreen({ navigation }) {
 	const [email, setEmail] = useState({ value: '', error: '' })
 	const [password, setPassword] = useState({ value: '', error: '' })
 	const dispatch = useDispatch()
+	const [user, setUser] = useState(null)
 
 	const onSignUpPressed = () => {
 		const nameError = nameValidator(name.value)
@@ -35,16 +36,16 @@ export default function RegisterScreen({ navigation }) {
 			email: email.value,
 			password: password.value,
 		}
-		// Signup here
-		//signup(signupPayload)
-		const user = signup(signupPayload);
-		dispatch(saveUser({ user: user }))
-		dispatch(authenticate({ loggedIn: true, checked: true }))
-		// navigation.reset({
-		// 	index: 0,
-		// 	routes: [{ name: 'Dashboard' }],
-		// })
+		const prom = signup(signupPayload);
+		console.log(prom)
+		prom.then((res) => setUser(res))
 	}
+	useEffect(() => {
+		if (user) {
+			dispatch(saveUser({ user: user }))
+			dispatch(authenticate({ loggedIn: true, checked: true }))
+		}
+	}, [user])
 
 	return (
 		<Background>

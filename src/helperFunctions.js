@@ -18,7 +18,7 @@ export { findUser }
 
 // useEffect(() => {
 //     setUsers(curr_user)
-//     console.log(curr_user)
+//     console.log(curr_user)x
 //     if (curr_user) {
 //       createNewChargingPoint(curr_user)
 //     }

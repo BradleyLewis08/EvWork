@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -14,7 +14,9 @@ import History from '../../pages/History'
 
 // stack navigators
 import { HomeNavigator, ProfileNavigator } from '../Stacks'
+import Nav from 'pages/Nav'
 import { StatsNav } from '../Stacks/Stacks'
+import { useSelector } from 'react-redux'
 
 const Tab = createBottomTabNavigator()
 
@@ -25,31 +27,46 @@ const navigationProps = {
 }
 
 const MyChargerNavigator = () => {
+  const { curr_user } = useSelector((state) => state.app)
+  console.log(curr_user.user_data.cp_registered)
   return (
     <Stack.Navigator
       initialRouteName="Home"
       headerMode="screen"
       screenOptions={navigationProps}
     >
-      <Stack.Screen
-        name="My Chargers"
-        component={MyChargers}
-        options={({ navigation }) => ({
-          title: 'My Chargers',
-        })}
-      />
-      <Stack.Screen
-        name="Register"
-        component={Registration}
-        options={({ navigation }) => ({
-          title: 'Register',
-        })}
-      />
-      <Stack.Screen
+      {curr_user.user_data.cp_registered === "none" &&
+        <>
+          <Stack.Screen
+            name="My Chargers"
+            component={MyChargers}
+            options={({ navigation }) => ({
+              title: 'My Chargers',
+            })}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Registration}
+            options={({ navigation }) => ({
+              title: 'Register',
+            })}
+          />
+        </>
+      }
+      {!(curr_user.user_data.cp_registered === "verified") && <Stack.Screen
         name="Review"
         component={ReviewPage}
         options={({ navigation }) => ({
           title: 'In Review',
+        })}
+      />}
+      <Stack.Screen
+        name="Nav"
+        component={Nav}
+        options={({ navigation }) => ({
+          title: 'Home',
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerTitle: () => <HeaderTitle />,
         })}
       />
     </Stack.Navigator>

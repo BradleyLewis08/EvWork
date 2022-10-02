@@ -8,7 +8,7 @@ import DrawerNavigator from './Drawer'
 import { AuthNavigator } from './Stacks'
 
 const Navigator = () => {
-  const { loggedIn } = useSelector((state) => state.app)
+  const { loggedIn, curr_user } = useSelector((state) => state.app)
   const dispatch = useDispatch()
 
   const Router = (loggedIn) ? DrawerNavigator : AuthNavigator
