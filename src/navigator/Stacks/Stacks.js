@@ -4,6 +4,7 @@ import { colors } from 'theme'
 import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
+import MyChargers from 'pages/MyChargers'
 import LoginScreen from '../../pages/Auth/LoginScreen'
 import SignupScreen from '../../pages/Auth/SignupScreen'
 import HeaderLeft from './HeaderLeft'
@@ -53,6 +54,33 @@ export const HomeNavigator = () => (
   </Stack.Navigator>
 )
 
+// export const MyChargerNavigator = () => (
+//   <Stack.Navigator
+//     initialRouteName="My Charger Screen"
+//     headerMode="screen"
+//     screenOptions={navigationProps}
+//   >
+//     <Stack.Screen
+//       name="My Charger Screen"
+//       component={Home}
+//       options={({ navigation }) => ({
+//         title: 'My Charger',
+//         headerLeft: () => <HeaderLeft navigation={navigation} />,
+//         headerTitle: () => <HeaderTitle />,
+//       })}
+//     />
+//     <Stack.Screen
+//       name="My Charger Screen 2"
+//       component={Home}
+//       options={({ navigation }) => ({
+//         title: 'My Charger',
+//         headerLeft: () => <HeaderLeft navigation={navigation} />,
+//         headerTitle: () => <HeaderTitle />,
+//       })}
+//     />
+//   </Stack.Navigator>
+// )
+
 export const ProfileNavigator = () => (
   <Stack.Navigator
     initialRouteName="Profile"
@@ -78,17 +106,10 @@ export const ProfileNavigator = () => (
   </Stack.Navigator>
 )
 
-const L = () => (
-  <Text>
-    Login
-  </Text>
-)
+const L = () => <Text>Login</Text>
 
 export const AuthNavigator = () => (
-  <Stack.Navigator
-    initialRouteName="Auth"
-    screenOptions={navigationProps}
-  >
+  <Stack.Navigator initialRouteName="Auth" screenOptions={navigationProps}>
     <Stack.Screen
       name="LoginScreen"
       component={LoginScreen}
@@ -107,4 +128,3 @@ export const AuthNavigator = () => (
     />
   </Stack.Navigator>
 )
-
