@@ -1,51 +1,108 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet, Text, View, StatusBar, Dimensions,
+  StyleSheet, Text, View, StatusBar, Dimensions, TouchableOpacity
 } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 import Button from 'components/Button'
 import { colors } from 'theme'
 import { useDispatch } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
 import Map from 'components/Map'
+import GoogleAutoComplete from '../../components/GoogleAutocomplete'
+import ChargerCard from '../../components/ChargerCard'
+import CHARGING_LEVELS from '../../data/chargers'
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.lightGrayPurple,
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
-  map: {
+  bottomContainer: {
+    flex: 1,
+    height: Dimensions.get('window').height / 2.2,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    backgroundColor: 'white'
+  },
+  findingContainer: {
+    flex: 1,
+    position: 'absolute',
+    height: Dimensions.get('window').height / 2.75,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height / 2,
-  }
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  findingText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
 })
 
+function FindingView() {
+  return (
+    <View style={styles.findingContainer}>
+      <ActivityIndicator size="large" color="#48BB78" style={{
+        marginBottom: 20,
+      }} />
+      <Text style={styles.findingText}>Finding you a charger...</Text>
+    </View>
+  )
+}
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch()
   const [coords, setCoords] = useState([])
+  const [finding, setFinding] = useState(false)
   const logout = () => {
     console.log("logout")
     dispatch(authenticate({ loggedIn: false, checked: true }))
   }
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
-      <Text style={styles.title}>Home</Text>
       <Map />
-      <Button
+      <View
+        style={styles.bottomContainer}
+      >
+        <Text
+          style={styles.title}
+        >
+          Let's charge.
+        </Text>
+        <GoogleAutoComplete />
+        {
+          finding ? (
+            <FindingView />
+          ) :
+            CHARGING_LEVELS.map((level, index) => (
+              <ChargerCard
+                key={index}
+                level={level.level}
+                amps={level.amps}
+                chargingTime={level.chargingTime}
+                numAvailable={level.numAvailable}
+                price={level.price}
+                setFinding={setFinding}
+              />
+            ))
+        }
+      </View>
+      {/* <Button
         onPress={logout}
       >
 
         <Text>Logout</Text>
-      </Button>
+      </Button> */}
     </View>
   )
 }
