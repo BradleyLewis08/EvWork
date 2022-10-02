@@ -1,6 +1,9 @@
-const HARVARD_LOCATION = {
-	"latitude": 42.37700289999999,
-	"longitude": -71.11666009999999
+import { HARVARD_CHARGERS } from './chargers'
+
+export const HARVARD_LOCATION = {
+	chargers: HARVARD_CHARGERS,
+	level_2: 12,
+	level_3: 5
 }
 
 const KRESEGE_LOCATION = {
@@ -21,7 +24,4 @@ const LOCATION_3 = {
 export const LOCATIONS = [
 	HARVARD_LOCATION,
 	KRESEGE_LOCATION,
-	MIT_LOCATION,
-	LOCATION_3
 ]
-

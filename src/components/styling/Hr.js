@@ -1,12 +1,12 @@
 import { View, StyleSheet } from 'react-native'
 
 
-export default function Hr() {
+export default function Hr({ margins = 5 }) {
 	return (
 		<View
 			style={{
-				marginTop: 5,
-				marginBottom: 5,
+				marginTop: margins,
+				marginBottom: margins,
 				borderBottomColor: 'lightgrey',
 				borderBottomWidth: StyleSheet.hairlineWidth,
 			}}

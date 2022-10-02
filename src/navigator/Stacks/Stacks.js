@@ -17,9 +17,10 @@ import { Text } from 'react-native'
 const Stack = createStackNavigator()
 
 const navigationProps = {
-  headerTintColor: 'white',
-  headerStyle: { backgroundColor: colors.darkPurple },
-  headerTitleStyle: { fontSize: 18 },
+  // headerTintColor: 'white',
+  // headerStyle: { backgroundColor: colors.darkPurple },
+  // headerTitleStyle: { fontSize: 18 },
+  headerShown: false
 }
 
 // ------------------------------------

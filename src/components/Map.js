@@ -6,7 +6,10 @@ import { useFocusEffect } from '@react-navigation/native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapViewDirections from 'react-native-maps-directions'
 import { images } from 'theme'
-import { LOCATIONS } from '../data/locations'
+import { HARVARD_CHARGERS } from '../data/chargers'
+import ChargerMarker from './ChargerMarker'
+import YouMarker from './YouMarker'
+import { current } from '@reduxjs/toolkit'
 
 const API_KEY = 'AIzaSyAGpu98_X7yyeg2DqxgnyJP-A3rgKB8zMk'
 const { width, height } = Dimensions.get('window')
@@ -22,16 +25,9 @@ const INITIAL_REGION = {
 	longitudeDelta: LONGITUDE_DELTA,
 }
 
-const ORIGIN = {
+const CURRENT_ORIGIN = {
 	"latitude": 42.360091,
 	"longitude": -71.09416
-}
-
-const FINAL_REGION = {
-	latitude: 37.78824,
-	latitude: -122.4323,
-	latitudeDelta: LATITUDE_DELTA,
-	longitudeDelta: LONGITUDE_DELTA,
 }
 
 const styles = StyleSheet.create({
@@ -41,53 +37,31 @@ const styles = StyleSheet.create({
 	},
 	map: {
 		width: Dimensions.get('window').width,
-		height: Dimensions.get('window').height / 2,
+		height: Dimensions.get('window').height / 2.20,
 	},
 })
 
-
-// function handleNavigate() {
-// 		onPress={(_, details) => {
-// 			const position = {
-// 				latitude: details.geometry.location.lat,
-// 				longitude: details.geometry.location.lng,
-// 			}
-// 			setDestination(position)
-// 			MoveCamera(position)
-// 			setReadyToFind(true)
-// 		}}
-// }
-
-
-export default function Map({ setReadyToFind }) {
+export default function Map({ found, setDuration, currentLocation }) {
 	const ref = useRef(null)
-	const [destination, setDestination] = useState(null)
-	const [duration, setDuration] = useState(0)
 	const [distance, setDistance] = useState(0)
-
-	const directionsReady = (result) => {
-		if (result) {
-			setDuration(result.duration)
-			setDistance(result.distance)
-		}
-	}
-
-	useFocusEffect(
-		React.useCallback(() => {
-			ref?.current?.fitToCoordinates(LOCATIONS, {
-				edgePadding: {
-					top: 50,
-					right: 50,
-					bottom: 50,
-					left: 50,
-				},
-			})
-		}, [])
-	)
+	const [chargers, setChargers] = useState([])
 
 	const MoveCamera = async (position) => {
+		ref.current.animateCamera({
+			center: {
+				latitude: position.latitude,
+				longitude: position.longitude,
+			},
+			zoom: 15,
+			tilt: 0,
+			heading: 0,
+			duration: 1000,
+		})
+	}
+
+	const MoveCameraToRoute = async (position) => {
 		ref?.current?.getCamera().then((camera) => {
-			ref?.current?.fitToCoordinates([position], {
+			ref?.current?.fitToCoordinates([CURRENT_ORIGIN, position], {
 				edgePadding: {
 					top: 50,
 					right: 50,
@@ -99,6 +73,20 @@ export default function Map({ setReadyToFind }) {
 			console.log(error)
 		})
 	}
+
+	useEffect(() => {
+		setChargers(HARVARD_CHARGERS)
+		MoveCamera(currentLocation)
+	}, [currentLocation])
+
+	const directionsReady = (result) => {
+		if (result) {
+			setDuration(result.duration)
+			setDistance(result.distance)
+		}
+		MoveCamera(result.coordinates[result.coordinates.length - 1])
+	}
+
 	return (
 		<MapView
 			ref={ref}
@@ -106,23 +94,37 @@ export default function Map({ setReadyToFind }) {
 			style={styles.map}
 			initialRegion={INITIAL_REGION}
 		>
+			<Marker
+				coordinate={currentLocation}
+				title="Destination"
+				description="This is the destination"
+			>
+				<YouMarker />
+			</Marker>
 			{
-				destination && (
-					<Marker
-						coordinate={destination}
-						title="Destination"
-						description="This is the destination"
+				chargers.map((charger, index) => {
+					return (
+						<Marker
+							key={index}
+							coordinate={charger.location}
+						>
+							<ChargerMarker chargers={charger.chargers} />
+						</Marker>
+					)
+				})
+			}
+			{/* {
+				found && (
+					<MapViewDirections
+						origin={CURRENT_ORIGIN}
+						destination={destination}
+						apikey={API_KEY}
+						strokeWidth={5}
+						strokeColor="#48BB78"
+						onReady={directionsReady}
 					/>
 				)
-			}
-			<MapViewDirections
-				origin={ORIGIN}
-				destination={destination}
-				apikey={API_KEY}
-				strokeWidth={5}
-				strokeColor="hotpink"
-				onReady={directionsReady}
-			/>
+			} */}
 		</MapView>
 	)
 }
