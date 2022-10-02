@@ -32,19 +32,20 @@ const navigationProps = {
 
 export const HomeNavigator = () => (
   <Stack.Navigator
-    initialRouteName="Receipt"
+    initialRouteName="Home"
     headerMode="screen"
     screenOptions={navigationProps}
   >
     <Stack.Screen
-      name="Receipt"
-      component={Receipt}
+      name="Home"
+      component={Home}
       options={({ navigation }) => ({
-        title: 'Receipt',
+        title: 'Home',
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerTitle: () => <HeaderTitle />,
       })}
     />
+
     <Stack.Screen
       name="Charging"
       component={Charging}
@@ -64,10 +65,10 @@ export const HomeNavigator = () => (
       })}
     />
     <Stack.Screen
-      name="Home"
-      component={Home}
+      name="Receipt"
+      component={Receipt}
       options={({ navigation }) => ({
-        title: 'Home',
+        title: 'Receipt',
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerTitle: () => <HeaderTitle />,
       })}
