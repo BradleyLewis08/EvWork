@@ -25,3 +25,21 @@ export { findUser }
 //   }, [curr_user])
 
 // createCharge({ chargepoint_id: "test", time_started: new Date.getTime(), time_ended: new Date.getTime + 10 * 60000, charge: 100 }, curr_user)
+
+// export const StatsNav = () => (
+//     <Stack.Navigator
+//       initialRouteName="Nav"
+//       headerMode="screen"
+//       screenOptions={navigationProps}
+//     >
+//       <Stack.Screen
+//         name="Nav"
+//         component={Nav}
+//         options={({ navigation }) => ({
+//           title: 'Home',
+//           headerLeft: () => <HeaderLeft navigation={navigation} />,
+//           headerTitle: () => <HeaderTitle />,
+//         })}
+//       />
+//     </Stack.Navigator>
+//   )

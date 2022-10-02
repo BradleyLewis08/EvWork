@@ -13,6 +13,7 @@ import {
 
 // stack navigators
 import { HomeNavigator, ProfileNavigator } from '../Stacks'
+import { StatsNav } from '../Stacks/Stacks'
 
 const Tab = createBottomTabNavigator()
 
@@ -116,7 +117,7 @@ const TabNavigator = () => (
     swipeEnabled={false}
   >
     <Tab.Screen name="Search" component={HomeNavigator} />
-    <Tab.Screen name="History" component={HomeNavigator} />
+    <Tab.Screen name="History" component={StatsNav} />
     <Tab.Screen name="My Charger" component={MyChargerNavigator} />
     <Tab.Screen name="Profile" component={ProfileNavigator} />
   </Tab.Navigator>
