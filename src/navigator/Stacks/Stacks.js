@@ -6,6 +6,9 @@ import Profile from 'pages/Profile'
 import Details from 'pages/Details'
 import LoginScreen from '../../pages/Auth/LoginScreen'
 import SignupScreen from '../../pages/Auth/SignupScreen'
+import Charging from '../../pages/Charging'
+import Loading from '../../pages/Loading'
+import Receipt from '../../pages/Receipt'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
 import { Text } from 'react-native'
@@ -29,22 +32,40 @@ const navigationProps = {
 
 export const HomeNavigator = () => (
   <Stack.Navigator
-    initialRouteName="Home"
+    initialRouteName="Receipt"
     headerMode="screen"
     screenOptions={navigationProps}
   >
     <Stack.Screen
-      name="Home"
-      component={Home}
+      name="Receipt"
+      component={Receipt}
       options={({ navigation }) => ({
-        title: 'Home',
+        title: 'Receipt',
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerTitle: () => <HeaderTitle />,
       })}
     />
     <Stack.Screen
-      name="Details"
-      component={Details}
+      name="Charging"
+      component={Charging}
+      options={({ navigation }) => ({
+        title: 'Charging',
+        headerLeft: () => <HeaderLeft navigation={navigation} />,
+        headerTitle: () => <HeaderTitle />,
+      })}
+    />
+    <Stack.Screen
+      name="Loading"
+      component={Loading}
+      options={({ navigation }) => ({
+        title: 'Loading',
+        headerLeft: () => <HeaderLeft navigation={navigation} />,
+        headerTitle: () => <HeaderTitle />,
+      })}
+    />
+    <Stack.Screen
+      name="Home"
+      component={Home}
       options={({ navigation }) => ({
         title: 'Home',
         headerLeft: () => <HeaderLeft navigation={navigation} />,

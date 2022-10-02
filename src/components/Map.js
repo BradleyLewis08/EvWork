@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default function Map({ found, setDuration, currentLocation }) {
+export default function Map({ found, setDuration, currentLocation, destination }) {
+	console.log('currentLocation', currentLocation)
+	console.log('destination', destination)
 	const ref = useRef(null)
 	const [distance, setDistance] = useState(0)
 	const [chargers, setChargers] = useState([])
@@ -61,7 +63,7 @@ export default function Map({ found, setDuration, currentLocation }) {
 
 	const MoveCameraToRoute = async (position) => {
 		ref?.current?.getCamera().then((camera) => {
-			ref?.current?.fitToCoordinates([CURRENT_ORIGIN, position], {
+			ref?.current?.fitToCoordinates([currentLocation, position], {
 				edgePadding: {
 					top: 50,
 					right: 50,
@@ -84,7 +86,7 @@ export default function Map({ found, setDuration, currentLocation }) {
 			setDuration(result.duration)
 			setDistance(result.distance)
 		}
-		MoveCamera(result.coordinates[result.coordinates.length - 1])
+		MoveCameraToRoute(result.coordinates[result.coordinates.length - 1])
 	}
 
 	return (
@@ -102,7 +104,7 @@ export default function Map({ found, setDuration, currentLocation }) {
 				<YouMarker />
 			</Marker>
 			{
-				chargers.map((charger, index) => {
+				!found && chargers.map((charger, index) => {
 					return (
 						<Marker
 							key={index}
@@ -113,10 +115,19 @@ export default function Map({ found, setDuration, currentLocation }) {
 					)
 				})
 			}
-			{/* {
+			{
 				found && (
+					<Marker
+						coordinate={destination}
+						title="Destination"
+						description="This is the destination"
+					/>
+				)
+			}
+			{
+				destination && (
 					<MapViewDirections
-						origin={CURRENT_ORIGIN}
+						origin={currentLocation}
 						destination={destination}
 						apikey={API_KEY}
 						strokeWidth={5}
@@ -124,7 +135,7 @@ export default function Map({ found, setDuration, currentLocation }) {
 						onReady={directionsReady}
 					/>
 				)
-			} */}
+			}
 		</MapView>
 	)
 }

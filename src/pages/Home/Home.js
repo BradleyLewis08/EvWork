@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet, Text, View, StatusBar, Dimensions, TouchableOpacity
 } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
 import Button from 'components/Button'
 import { colors } from 'theme'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +13,10 @@ import ChargerCard from '../../components/ChargerCard'
 import ChargerDetailsCard from '../../components/ChargerDetailsCard'
 import CHARGING_LEVELS from '../../data/chargers'
 import Hr from '../../components/styling/Hr'
+import { HARVARD_LOCATION } from '../../data/locations'
+import { ActivityIndicator, Modal, Portal, Provider } from 'react-native-paper';
+import { images } from '../../theme'
+import { Image } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   root: {
@@ -116,16 +119,20 @@ function FoundView({ duration }) {
   )
 }
 
-const DESTINATION = {
-  "latitude": 42.360091,
-  "longitude": -71.09416,
-}
-
 const Home = ({ navigation }) => {
   function DrivingView() {
     return (
       <>
         <Text style={styles.title}>You're on your way!</Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Image source={images.driving} style={{ width: 250, height: 250 }} />
+        </View>
       </>
     )
   }
@@ -136,7 +143,7 @@ const Home = ({ navigation }) => {
         <ActivityIndicator size="large" color="#48BB78" style={{
           marginBottom: 20,
         }} />
-        <Text style={styles.findingText}>Finding you a charger...</Text>
+        <Text style={styles.findingText}>Hang tight!</Text>
       </View>
     )
   }
@@ -146,88 +153,124 @@ const Home = ({ navigation }) => {
   const [found, setFound] = useState(false)
   const [duration, setDuration] = useState(0)
   const [driving, setDriving] = useState(false)
+  const [chargeList, setChargeList] = useState([])
+  const [confirmationVisible, setConfirmationVisible] = useState(false)
   const logout = () => {
     console.log(curr_user)
     dispatch(authenticate({ loggedIn: false, checked: true }))
     dispatch(saveUser({ user: {} }))
     finishCharge(curr_user.user_data.charges[0])
   }
+
+  useEffect(() => {
+    if (location !== CURRENT_ORIGIN) {
+      setFinding(true)
+      setTimeout(() => {
+        setChargeList(HARVARD_LOCATION.chargeLevels)
+        setFinding(false)
+      }, 2000)
+    }
+  }, [location])
+
+  const navigateToCharger = () => {
+    setFinding(true)
+    setTimeout(() => {
+      setFinding(false)
+      setDestination(HARVARD_LOCATION.chargers[2].location)
+      setFound(true)
+    }, 4000)
+  }
+
   return (
-    <View style={styles.root}>
-      <Map
-        currentLocation={location}
-        found={found}
-        setDuration={setDuration}
-      />
-      <View
-        style={styles.bottomContainer}
-      >
-        {!found ? (
-          <>
-            <Text
-              style={styles.title}
-            >
-              Let's charge.
-            </Text>
-            <GoogleAutoComplete
-              setLocation={setLocation}
-            />
-            {finding ? (
-              <FindingView />
-            )
-              :
-              CHARGING_LEVELS.map((level, index) => (
-                <ChargerCard
-                  key={index}
-                  level={level.level}
-                  amps={level.amps}
-                  chargingTime={level.chargingTime}
-                  numAvailable={level.numAvailable}
-                  price={level.price}
-                  setFinding={() => {
-                    setFinding(true)
-                    setTimeout(() => {
-                      setFinding(false)
-                      setFound(true)
-                      setDestination(DESTINATION)
-                    }, 4000)
-                  }}
-                />
-              ))
-            }
-          </>
-        ) : driving ? (
-          <>
-            <DrivingView />
-            <Button>
-              I've Arrived
-            </Button>
-          </>
-        ) :
-          (
+    <Provider>
+      <Portal>
+        <Modal visible={confirmationVisible} onDismiss={() => setConfirmationVisible(false)}>
+          <View style={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Confirm Charger?</Text>
+            <Text style={{ marginBottom: 20 }}>A hold of $23.15 will be held on your card ending in 3938.</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Button
+                style={{ width: '45%', backgroundColor: 'red' }}
+                onPress={() => setConfirmationVisible(false)}>Cancel
+              </Button>
+              <Button
+                style={{ width: '45%' }}
+                onPress={() => {
+                  setConfirmationVisible(false)
+                  navigateToCharger()
+                }}>Confirm
+              </Button>
+            </View>
+          </View>
+        </Modal>
+      </Portal>
+      <View style={styles.root}>
+        <Map
+          currentLocation={location}
+          found={found}
+          setDuration={setDuration}
+          destination={destination}
+        />
+        <View
+          style={styles.bottomContainer}
+        >
+          {!found ? (
             <>
-              <FoundView
-                duration={duration}
+              <Text
+                style={styles.title}
+              >
+                Let's charge.
+              </Text>
+              <GoogleAutoComplete
+                setLocation={setLocation}
               />
+              {finding ? (
+                <FindingView />
+              )
+                :
+                chargeList.map((level, index) => (
+                  <ChargerCard
+                    key={index}
+                    openModal={() => setConfirmationVisible(true)}
+                    level={level.level}
+                    amps={level.amps}
+                    chargingTime={level.chargingTime}
+                    numAvailable={level.numAvailable}
+                    price={level.price}
+                  />
+                ))
+              }
+            </>
+          ) : driving ? (
+            <>
+              <DrivingView />
               <Button
                 onPress={() => {
-                  console.log('clicked')
-                  setDriving(true)
+                  navigation.navigate('Charging')
                 }}
               >
-                Navigate
+                I've Arrived
               </Button>
             </>
-          )
-        }
+          ) :
+            (
+              <>
+                <FoundView
+                  duration={duration}
+                />
+                <Button
+                  onPress={() => {
+                    setDriving(true)
+                  }}
+                >
+                  Navigate
+                </Button>
+              </>
+            )
+          }
+        </View>
       </View>
-      {/* <Button
-        onPress={logout}
-      >
-
-        <Text>Logout</Text>
-      </Button> */}
-    </View>
+    </Provider>
   )
 }
 

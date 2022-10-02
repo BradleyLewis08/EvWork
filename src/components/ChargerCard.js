@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import Hr from './styling/Hr'
 
@@ -30,10 +31,11 @@ const styles = StyleSheet.create({
 })
 
 
-export default function ChargerCard({ level, amps, chargingTime, numAvailable, price, setFinding }) {
+export default function ChargerCard({ level, amps, chargingTime, numAvailable, price, setFinding, openModal }) {
+	const [visible, setVisible] = React.useState(false)
 	return (
 		<TouchableOpacity style={styles.container}
-			onPress={() => setFinding()}
+			onPress={() => openModal()}
 		>
 			<Text
 				style={styles.title}

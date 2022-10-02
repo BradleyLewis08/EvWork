@@ -1,9 +1,9 @@
-import { HARVARD_CHARGERS } from './chargers'
+import { CHARGING_LEVELS, HARVARD_CHARGERS } from './chargers'
+
 
 export const HARVARD_LOCATION = {
 	chargers: HARVARD_CHARGERS,
-	level_2: 12,
-	level_3: 5
+	chargeLevels: CHARGING_LEVELS
 }
 
 const KRESEGE_LOCATION = {
