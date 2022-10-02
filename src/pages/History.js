@@ -65,7 +65,8 @@ function HistoryCard({ location, date, charge, cost }) {
 						style={{
 							fontSize: 18,
 							fontWeight: 'bold',
-							color: 'white'
+							color: 'white',
+							alignSelf: 'flex-end'
 						}}
 					>
 						{cost}
@@ -74,11 +75,11 @@ function HistoryCard({ location, date, charge, cost }) {
 						style={{
 							fontSize: 16,
 							color: 'white',
-							alignSelf: 'flex-end'
+							alignSelf: 'flex-end',
 
 						}}
 					>
-						{`${charge}%`}
+						{`${charge} lbs CO2 saved`}
 					</Text>
 				</View>
 			</View>
