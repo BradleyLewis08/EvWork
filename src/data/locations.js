@@ -35,4 +35,8 @@ export const RECENT_LOCATIONS = [
     title: 'MIT Sloan School of Management',
     subtitle: 'Cambridge, MA',
   },
+  {
+	title: '12 Vassar St',
+	subtitle: 'Cambridge, MA',
+  }
 ]

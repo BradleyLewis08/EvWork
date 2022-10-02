@@ -11,7 +11,7 @@ const Navigator = () => {
   const { loggedIn } = useSelector((state) => state.app)
   const dispatch = useDispatch()
 
-  const Router = loggedIn ? DrawerNavigator : AuthNavigator
+  const Router = (loggedIn) ? DrawerNavigator : AuthNavigator
 
   return (
     <NavigationContainer>

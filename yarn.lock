@@ -13943,6 +13943,13 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-animate-number@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-animate-number/-/react-native-animate-number-0.1.2.tgz#d41c5a784e05f9d788dafbf7b158584c65e8cf47"
+  integrity sha512-cZmKlQcJ+J2ze8omc/2eeKVdUJfcQ+pGr6bOgnqCTotHWmFOW8rhpk9mfLTKhg8+UhQ7v974LpTs8bnCAH3PwA==
+  dependencies:
+    react-timer-mixin "^0.13.3"
+
 react-native-animated-numbers@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/react-native-animated-numbers/-/react-native-animated-numbers-0.4.1.tgz#c8e4188326bf2adcf04a37d95db714939ba71031"
@@ -14252,6 +14259,11 @@ react-timer-hook@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/react-timer-hook/-/react-timer-hook-3.0.5.tgz#a8d930f99b180cd88da245965a26a17df3e7457b"
   integrity sha512-n+98SdmYvui2ne3KyWb3Ldu4k0NYQa3g/VzW6VEIfZJ8GAk/jJsIY700M8Nd2vNSTj05c7wKyQfJBqZ0x7zfiA==
+
+react-timer-mixin@^0.13.3:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
+  integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
 
 react@17.0.1:
   version "17.0.1"

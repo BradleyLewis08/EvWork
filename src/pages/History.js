@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { View, SafeAreaView, StyleSheet, Text } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { ScrollView } from 'react-native-gesture-handler'
+import { CHARGES } from '../data/charges'
+import AnimateNumber from 'react-native-animate-number'
 
 const styles = StyleSheet.create({
 	root: {
@@ -8,44 +11,55 @@ const styles = StyleSheet.create({
 		backgroundColor: '#48BB78',
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 20,
 		fontWeight: 'bold',
 		marginBottom: 1,
 		color: 'white'
 	}
 })
 
-function HistoryCard() {
+function HistoryCard({ location, date, charge, cost }) {
 	return (
 		<>
 			<View
 				style={{
-					marginLeft: 10
-				}}
-			>
-				<Text style={styles.title}>August 21, 2022</Text>
-
-
-			</View>
-			<View
-				style={{
-					marginTop: 15
-				}}
-			>
-
-			</View>
-			<View
-				style={{
-					marginTop: 15,
+					marginTop: 30,
 					flexDirection: 'row',
-					alignItems: 'center'
+					alignItems: 'center',
+					justifyContent: 'space-between',
 				}}
 			>
-				<MaterialIcons name="bolt" size={40} color='white' />
 				<View
 					style={{
-						marginLeft: 10
+						flexDirection: 'row'
 					}}
+				>
+					<MaterialIcons name="bolt" size={45} color='white' />
+					<View
+						style={{
+							marginLeft: 10
+						}}
+					>
+						<Text
+							style={{
+								fontSize: 18,
+								fontWeight: 'bold',
+								color: 'white'
+							}}
+						>
+							{location}
+						</Text>
+						<Text
+							style={{
+								fontSize: 16,
+								color: 'white'
+							}}
+						>
+							{date}
+						</Text>
+					</View>
+				</View>
+				<View
 				>
 					<Text
 						style={{
@@ -54,7 +68,17 @@ function HistoryCard() {
 							color: 'white'
 						}}
 					>
-						
+						{cost}
+					</Text>
+					<Text
+						style={{
+							fontSize: 16,
+							color: 'white',
+							alignSelf: 'flex-end'
+
+						}}
+					>
+						{`${charge}%`}
 					</Text>
 				</View>
 			</View>
@@ -63,10 +87,6 @@ function HistoryCard() {
 }
 
 export default function History() {
-	const [animateNumber, setAnimateTo] = useState(0)
-	useEffect(() => {
-		setAnimateTo(2800)
-	}, [])
 
 	return (
 		<SafeAreaView style={styles.root}>
@@ -81,14 +101,26 @@ export default function History() {
 			>
 				Charge History
 			</Text>
-			<View
+			<ScrollView
 				style={{
 					padding: 20,
 					marginTop: 20,
 				}}
 			>
-				<HistoryCard />
-			</View>
+				{
+					CHARGES.map((charge, index) => (
+						<>
+							<HistoryCard
+								key={charge.id}
+								location={charge.location}
+								charge={charge.charge}
+								cost={charge.cost}
+								date={charge.date}
+							/>
+						</>
+					))
+				}
+			</ScrollView>
 		</SafeAreaView>
 	)
 }

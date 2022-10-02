@@ -141,7 +141,7 @@ export default function Receipt() {
 						<Text
 							style={styles.sectionInfoTextBold}
 						>
-							Harvard Square
+							14 Bennett Street
 						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -166,6 +166,18 @@ export default function Receipt() {
 							style={styles.sectionInfoTextBold}
 						>
 							Visa *3918
+						</Text>
+					</View>
+					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+						<Text
+							style={styles.sectionInfoText}
+						>
+							Carbon Dioxide Emissions Saved
+						</Text>
+						<Text
+							style={styles.sectionInfoTextBold}
+						>
+							0.5 lbs
 						</Text>
 					</View>
 				</View>

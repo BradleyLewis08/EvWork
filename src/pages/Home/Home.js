@@ -126,6 +126,14 @@ const Home = ({ navigation }) => {
     return (
       <>
         <Text style={styles.title}>You're on your way!</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            marginBottom: 20,
+          }}
+        >
+          Drive safe, and let us know when you arrive at the charger.
+        </Text>
         <View
           style={{
             flex: 1,
@@ -213,7 +221,7 @@ const Home = ({ navigation }) => {
       setFinding(false)
       setDestination(HARVARD_LOCATION.chargers[2].location)
       setFound(true)
-    }, 4000)
+    }, 3000)
   }
 
   return (
