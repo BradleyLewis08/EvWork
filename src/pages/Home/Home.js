@@ -171,6 +171,7 @@ const Home = ({ navigation }) => {
     setDriving(false)
     setChargeList([])
     setConfirmationVisible(false)
+    setDestination(null)
   }
 
   const logout = () => {
@@ -233,7 +234,7 @@ const Home = ({ navigation }) => {
             <Text
               style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
             >
-              Confirm Charger?
+              Reserve Charger?
             </Text>
             <Text style={{ marginBottom: 20 }}>
               A hold of $23.15 will be held on your card ending in 3938.
@@ -254,7 +255,7 @@ const Home = ({ navigation }) => {
                   navigateToCharger()
                 }}
               >
-                Confirm
+                Reserve
               </Button>
             </View>
           </View>

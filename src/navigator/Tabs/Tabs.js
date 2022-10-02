@@ -10,6 +10,7 @@ import {
   Registration,
   ReviewPage,
 } from '../../pages/MyChargers/MyChargers'
+import History from '../../pages/History'
 
 // stack navigators
 import { HomeNavigator, ProfileNavigator } from '../Stacks'
@@ -117,7 +118,7 @@ const TabNavigator = () => (
     swipeEnabled={false}
   >
     <Tab.Screen name="Search" component={HomeNavigator} />
-    <Tab.Screen name="History" component={StatsNav} />
+    <Tab.Screen name="History" component={History} />
     <Tab.Screen name="My Charger" component={MyChargerNavigator} />
     <Tab.Screen name="Profile" component={ProfileNavigator} />
   </Tab.Navigator>

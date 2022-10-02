@@ -4,6 +4,9 @@ import { useNavigation } from '@react-navigation/native'
 import { useStopwatch } from 'react-timer-hook'
 import Button from '../../components/Button'
 import { resetWarningCache } from 'prop-types'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Animated, { interpolateColor, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 
 const formatTimestring = (minutes, seconds) => {
 	return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
@@ -12,7 +15,6 @@ const formatTimestring = (minutes, seconds) => {
 const styles = StyleSheet.create({
 	root: {
 		flex: 1,
-		alignItems: 'center',
 	},
 	container: {
 		flex: 1,
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
 	}
 })
 
+
 export default function Charging() {
 	const {
 		seconds,
@@ -56,15 +59,69 @@ export default function Charging() {
 		reset
 	} = useStopwatch({ autoStart: false })
 	const navigation = useNavigation()
+
+	const progress = useDerivedValue(() => {
+		return withTiming(isRunning ? 1 : 0)
+	})
+
+	const rStyle = useAnimatedStyle(() => {
+		const backgroundColor = interpolateColor(
+			progress.value,
+			[0, 1],
+			['white', '#48BB78']
+		)
+		return {
+			backgroundColor
+		};
+	});
+
+	const marginStyle = useAnimatedStyle(() => {
+		return {
+			marginLeft: withTiming(isRunning ? 5 : 0)
+		}
+	})
+
 	return (
-		<SafeAreaView
-			style={styles.root}
+		<Animated.View
+			style={[styles.root, rStyle]}
 		>
 			<Text
-				style={styles.title}
+				style={{
+					fontSize: 24,
+					marginBottom: 10,
+					marginLeft: 20,
+					marginTop: 80,
+					color: isRunning ? 'white' : 'black',
+					fontWeight: 'bold',
+				}}
+
 			>
 				Your Charging Session
 			</Text>
+			<View style={{
+				marginLeft: 20,
+				flexDirection: 'row',
+				alignItems: 'center',
+			}}>
+				<Text>
+					<Ionicons name={isRunning ? "ios-battery-charging-sharp" : "ios-battery-half-sharp"} size={40} color={isRunning ? 'white' : 'black'} />
+					{isRunning && <MaterialIcons name="bolt" size={30} color={isRunning ? 'white' : 'black'} />}
+				</Text>
+				<Animated.View
+					style={[marginStyle]}
+				>
+					<Text
+						style={{
+							fontSize: 18,
+							fontWeight: 'bold',
+							marginLeft: isRunning ? 0 : 10,
+							color: isRunning ? 'white' : 'black',
+						}}
+					>
+						60%
+					</Text>
+				</Animated.View>
+			</View>
 			<View
 				style={styles.container}
 			>
@@ -80,7 +137,11 @@ export default function Charging() {
 					>
 
 						<Text
-							style={styles.title}
+							style={{
+								fontSize: 24,
+								fontWeight: 'bold',
+								color: isRunning ? 'white' : 'black',
+							}}
 						>
 							{formatTimestring(minutes, seconds)}
 						</Text>
@@ -95,26 +156,64 @@ export default function Charging() {
 
 						</View>
 						<Text
-							style={styles.title}
+							style={{
+								fontSize: 24,
+								fontWeight: 'bold',
+								color: isRunning ? 'white' : 'black',
+							}}
 						>
-							32%
+							{isRunning ? '0.5' : '0.0'} kWh
 						</Text>
 					</View>
 					{
 						isRunning ? (
-							<Button
-								onPress={() => {
-									pause()
-									reset()
-									navigation.navigate("Loading")
-								}}
+							<View
 								style={{
-									backgroundColor: "blue",
-									width: "80%",
+									flexDirection: 'row',
+									justifyContent: 'center',
+									alignItems: 'center',
+									width: '50%',
 								}}
 							>
-								Finish
-							</Button>
+								<Button
+									onPress={() => {
+										pause()
+										// reset()
+										// navigation.navigate("Loading")
+									}}
+									style={{
+										backgroundColor: 'transparent',
+										width: "60%",
+									}}
+								>
+									<Text
+										style={{
+											fontWeight: 'bold',
+										}}
+									>
+										Pause
+									</Text>
+								</Button>
+								<Button
+									onPress={() => {
+										pause()
+										reset()
+										navigation.navigate("Loading")
+									}}
+									style={{
+										backgroundColor: 'transparent',
+										width: "60%",
+									}}
+								>
+									<Text
+										style={{
+											fontWeight: 'bold',
+										}}
+									>
+										Finish
+									</Text>
+								</Button>
+							</View>
 						) : (
 							<Button
 								onPress={start}
@@ -128,6 +227,6 @@ export default function Charging() {
 					}
 				</View>
 			</View>
-		</SafeAreaView>
+		</Animated.View >
 	)
 }

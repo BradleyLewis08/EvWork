@@ -117,7 +117,7 @@ export default function Receipt() {
 						<Text
 							style={styles.sectionInfoTextBold}
 						>
-							00:32
+							00:06
 						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -129,7 +129,7 @@ export default function Receipt() {
 						<Text
 							style={styles.sectionInfoTextBold}
 						>
-							+ 50 mi
+							+ 0.1 mi
 						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -153,7 +153,7 @@ export default function Receipt() {
 						<Text
 							style={styles.sectionInfoTextBold}
 						>
-							$27.32
+							$0.05
 						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

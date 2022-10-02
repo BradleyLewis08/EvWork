@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	},
 	map: {
 		width: Dimensions.get('window').width,
-		height: Dimensions.get('window').height / 2.20,
+		height: Dimensions.get('window').height / 2.17,
 	},
 })
 

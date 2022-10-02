@@ -81,7 +81,7 @@ export default function ChargerDetailsCard({ level, chargerType }) {
         <Hr />
         <Image
           source={require('./Location.png')}
-          style={{ width: 220, height: 41 }}
+          style={{ width: 220, height: 41, borderRadius: 10 }}
         />
         <Text style={{ color: '#1C4532', marginTop: 8, fontSize: 14 }}>
           14 Bennett Street
