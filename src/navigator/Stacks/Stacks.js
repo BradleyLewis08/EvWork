@@ -4,6 +4,8 @@ import { colors } from 'theme'
 import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
+import Nav from 'pages/Nav'
+import MyChargers from 'pages/MyChargers'
 import LoginScreen from '../../pages/Auth/LoginScreen'
 import SignupScreen from '../../pages/Auth/SignupScreen'
 import Charging from '../../pages/Charging'
@@ -76,32 +78,23 @@ export const HomeNavigator = () => (
   </Stack.Navigator>
 )
 
-// export const MyChargerNavigator = () => (
-//   <Stack.Navigator
-//     initialRouteName="My Charger Screen"
-//     headerMode="screen"
-//     screenOptions={navigationProps}
-//   >
-//     <Stack.Screen
-//       name="My Charger Screen"
-//       component={Home}
-//       options={({ navigation }) => ({
-//         title: 'My Charger',
-//         headerLeft: () => <HeaderLeft navigation={navigation} />,
-//         headerTitle: () => <HeaderTitle />,
-//       })}
-//     />
-//     <Stack.Screen
-//       name="My Charger Screen 2"
-//       component={Home}
-//       options={({ navigation }) => ({
-//         title: 'My Charger',
-//         headerLeft: () => <HeaderLeft navigation={navigation} />,
-//         headerTitle: () => <HeaderTitle />,
-//       })}
-//     />
-//   </Stack.Navigator>
-// )
+export const StatsNav = () => (
+  <Stack.Navigator
+    initialRouteName="Nav"
+    headerMode="screen"
+    screenOptions={navigationProps}
+  >
+    <Stack.Screen
+      name="Nav"
+      component={Nav}
+      options={({ navigation }) => ({
+        title: 'Home',
+        headerLeft: () => <HeaderLeft navigation={navigation} />,
+        headerTitle: () => <HeaderTitle />,
+      })}
+    />
+  </Stack.Navigator>
+)
 
 export const ProfileNavigator = () => (
   <Stack.Navigator
