@@ -23,6 +23,7 @@ async function signup(data) {
     password: data.password,
     charging_points: [],
     charges: [],
+    vehicles: [],
   })
   console.log("Added user with ID: ", new_doc.id)
   const doc_snap = await getDoc(new_doc)
@@ -38,12 +39,11 @@ async function createNewChargingPoint(curr_user_doc) {
     charge: null,
     owner_id: curr_user_doc.id,
   })
-  const arr_copy = [...curr_user_doc.user_data.chargingPoints]
-  arr_copy.push("hello")
   const user_ref = doc(db, "Users", curr_user_doc.id)
   await updateDoc(user_ref, { charging_points: arrayUnion(new_doc.id) })
   console.log("Added charging point with ID: ", new_doc.id)
-  return new_doc.get().data()
+  const doc_snap = await getDoc(new_doc)
+  return doc_snap.data()
 }
 
 async function createCharge(charge_data, curr_user_doc) {
@@ -60,16 +60,64 @@ async function createCharge(charge_data, curr_user_doc) {
   const cp_ref = doc(db, "ChargingPoints", charge_data.chargepoint_id)
   await updateDoc(cp_ref, { charge: new_doc.id, active: true })
   console.log("Added charge with ID: ", new_doc.id)
-  return new_doc.get().data()
+  const doc_snap = await getDoc(new_doc)
+  return doc_snap.data()
 }
 
 async function finishCharge(charge_id) {
   const charge_ref = doc(db, "Charges", charge_id)
   await updateDoc(charge_ref, { active: false })
-  const cp_ref = doc(db, "ChargingPoints", charge_ref.data().chargepoint_id)
+  const doc_snap = await getDoc(charge_ref)
+  const cp_ref = doc(db, "ChargingPoints", doc_snap.data().chargepoint_id)
   await updateDoc(cp_ref, { charge: null, active: false })
-  console.log("Charge with id ", charge_id, "completed")
+  console.log("Charge with id", charge_id, "completed")
   return true
 }
 
-export { login, signup, createNewChargingPoint, createCharge, finishCharge }
+async function createVehicle(vehicle_data, curr_user_doc) {
+  const vehicleCol = collection(db, "Vehicles")
+  const new_doc = await addDoc(vehicleCol, {
+    make: vehicle_data.make,
+    picture: vehicle_data.picture,
+    tesla: vehicle_data.tesla,
+  })
+  const user_ref = doc(db, "Users", curr_user_doc.id)
+  await updateDoc(user_ref, { vehicles: arrayUnion(new_doc.id) })
+  console.log("Vehicle with id", new_doc.id, "created")
+  const doc_snap = await getDoc(new_doc)
+  return doc_snap.data()
+}
+
+async function getActiveCharges(curr_user_doc) {
+  const user_ref = doc(db, "Users", curr_user_doc.id)
+  const doc_snap = await getDoc(user_ref)
+  const charge_list = doc_snap.data().charges
+  //console.log(charge_list)
+  // const promises = doc_snap.data().charges.map(async (charge_id) => {
+  //   let charge_ref = doc(db, "Charges", charge_id)
+  //   let doc_snap = await getDoc(charge_ref)
+  //   return doc_snap.data()
+  // });
+  // console.log(Promise.all(promises))
+  // return Promise.all(promises)
+  const result_arr = await Promise.all(charge_list.map(async (charge) => getChargeData(charge)))
+  //onsole.log(result_arr)
+  //console.log(result_arr)
+  return result_arr
+}
+
+async function getChargeData(charge_id) {
+  const charge_ref = doc(db, "Charges", charge_id)
+  const doc_snap = await getDoc(charge_ref)
+  return doc_snap.data()
+}
+
+export {
+  login,
+  signup,
+  createNewChargingPoint,
+  createCharge,
+  finishCharge,
+  createVehicle,
+  getActiveCharges,
+}

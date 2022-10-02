@@ -12,6 +12,7 @@ import Map from 'components/Map'
 import GoogleAutoComplete from '../../components/GoogleAutocomplete'
 import ChargerCard from '../../components/ChargerCard'
 import CHARGING_LEVELS from '../../data/chargers'
+import { createCharge, createNewChargingPoint, createVehicle, finishCharge, getActiveCharges } from '../../functions'
 
 const styles = StyleSheet.create({
   root: {
