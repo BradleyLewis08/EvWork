@@ -14,7 +14,6 @@ import ChargerCard from '../../components/ChargerCard'
 import ChargerDetailsCard from '../../components/ChargerDetailsCard'
 import CHARGING_LEVELS from '../../data/chargers'
 import Hr from '../../components/styling/Hr'
-import { CurrentRenderContext } from '@react-navigation/native'
 
 const styles = StyleSheet.create({
   root: {
