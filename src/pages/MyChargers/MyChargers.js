@@ -13,6 +13,8 @@ import { colors } from 'theme'
 import { useNavigation } from '@react-navigation/native'
 import { Button as PaperButton } from 'react-native-paper'
 import { theme } from '../../core/theme'
+import { registerCharger } from '../../functions'
+import { useSelector } from 'react-redux'
 
 export default function Button({ mode, style, ...props }) {
   return (
@@ -111,6 +113,11 @@ export const MyChargers = ({ route, navigation }) => {
 }
 
 export const Registration = ({ route, navigation }) => {
+  const { curr_user } = useSelector((state) => state.app)
+  const startReview = (navigation) => {
+    registerCharger(curr_user)
+    navigation.navigate('Review')
+  }
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
@@ -141,21 +148,21 @@ export const Registration = ({ route, navigation }) => {
           style={styles.input}
         />
         <Text style={styles.formTitle}>Charger Level</Text>
-        <TextInput placeholder="Level 2 or Level 3" style={styles.input} />
-        <Text style={styles.formTitle}>Address</Text>
-        <TextInput placeholder="Street, City, State Zip" style={styles.input} />
+        <TextInput placeholder="2 for Level 2 or 3 for Level 3" style={styles.input} />
         <Button
           children="Link Device"
           style={{
-            marginTop: 10,
+            marginVertical: 10,
             width: '50%',
-            backgroundColor: '#BEE3F8',
+            backgroundColor: '#D8EAD8',
             shadowColor: 'rgba(0, 0, 0, 0.2)',
             shadowOffset: { width: 0, height: 3 },
             shadowOpacity: 0.3,
             shadowRadius: 3,
           }}
         />
+        <Text style={styles.formTitle}>Address</Text>
+        <TextInput placeholder="Street, City, State Zip" style={styles.input} />
         <Button
           color="#2F855A"
           children="Get Started"
@@ -168,7 +175,7 @@ export const Registration = ({ route, navigation }) => {
             shadowOpacity: 0.3,
             shadowRadius: 3,
           }}
-          onPress={() => navigation.navigate('Review')}
+          onPress={() => startReview(navigation)}
         />
       </View>
     </View>
@@ -219,3 +226,5 @@ export const ReviewPage = ({ route, navigation }) => {
     </View>
   )
 }
+
+

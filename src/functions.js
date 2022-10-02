@@ -24,9 +24,11 @@ async function signup(data) {
     charging_points: [],
     charges: [],
     vehicles: [],
+    cp_registered: "none",
   })
   console.log("Added user with ID: ", new_doc.id)
   const doc_snap = await getDoc(new_doc)
+  console.log({ id: new_doc.id, user_data: doc_snap.data() })
   return { id: new_doc.id, user_data: doc_snap.data() }
 }
 
@@ -112,6 +114,20 @@ async function getChargeData(charge_id) {
   return doc_snap.data()
 }
 
+async function registerCharger(curr_user_doc) {
+  const user_ref = doc(db, "Users", curr_user_doc.id)
+  await updateDoc(user_ref, { cp_registered: "in progress" })
+  console.log("Updated user with id", curr_user_doc.id)
+  return true
+}
+
+async function getChargeStatus(curr_user_doc) {
+  const user_ref = doc(db, "Users", curr_user_doc.id)
+  const doc_snap = await getDoc(user_ref)
+  console.log("Got charge status", doc_snap.data().cp_registered, "of", curr_user_doc.id)
+  return doc_snap.data().cp_registered
+}
+
 export {
   login,
   signup,
@@ -120,4 +136,6 @@ export {
   finishCharge,
   createVehicle,
   getActiveCharges,
+  registerCharger,
+  getChargeStatus,
 }
