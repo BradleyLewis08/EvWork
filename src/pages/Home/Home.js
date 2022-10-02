@@ -87,9 +87,8 @@ function formatDuration(duration) {
   const hours = Math.floor(duration / 60)
   const minutes = Math.round(duration % 60)
   if (hours > 0) {
-    return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${
-      minutes > 1 ? 's' : ''
-    }`
+    return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''
+      }`
   } else {
     return `${minutes} minute${minutes > 1 ? 's' : ''}`
   }
@@ -296,7 +295,7 @@ const Home = ({ navigation }) => {
                   </Text>
                   <Hr />
                   {RECENT_LOCATIONS.map((location, index) => (
-                    <View styles={{ display: 'flex' }}>
+                    <View key={index} styles={{ display: 'flex' }}>
                       <Text
                         style={{
                           fontSize: 16,
