@@ -25,3 +25,18 @@ export const LOCATIONS = [
 	HARVARD_LOCATION,
 	KRESEGE_LOCATION,
 ]
+
+export const RECENT_LOCATIONS = [
+	{
+		"title": "540 Main St",
+		"subtitle": "Brookline, MA"
+	},
+	{
+		"title": "125 Western Ave",
+		"subtitle": "Allston, MA"
+	},
+	{
+		"title": "127 Western Ave",
+		"subtitle": "Boston, MA"
+	}
+]

@@ -1,12 +1,26 @@
 import { View } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { useEffect, useRef } from 'react'
 
 const API_KEY = 'AIzaSyAGpu98_X7yyeg2DqxgnyJP-A3rgKB8zMk'
 
-export default function GoogleAutoComplete({ setLocation }) {
+export default function GoogleAutoComplete({ setLocation, setIsFocused }) {
+	const ref = useRef(null)
+
+	useEffect(() => {
+		console.log(ref.current?.isFocused())
+		setIsFocused(ref.current?.isFocused())
+	}, [])
+
+
 	return (
 		<GooglePlacesAutocomplete
+			ref={ref}
 			placeholder="Search"
+			textInputProps={{
+				onFocus: () => setIsFocused(true),
+				onBlur: () => setIsFocused(false),
+			}}
 			query={{
 				key: API_KEY,
 				language: 'en',

@@ -19,9 +19,7 @@ const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
 const navigationProps = {
-  headerTintColor: 'white',
-  headerStyle: { backgroundColor: colors.darkPurple },
-  headerTitleStyle: { fontSize: 18 },
+  headerShown: false,
 }
 
 const MyChargerNavigator = () => {

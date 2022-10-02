@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState, useRef } from 'react'
+import PropTypes, { resetWarningCache } from 'prop-types'
 import {
-  StyleSheet, Text, View, StatusBar, Dimensions, TouchableOpacity
+  StyleSheet, Text, View, StatusBar, Dimensions, TouchableOpacity, KeyboardAvoidingView, Keyboard, Platform
 } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
@@ -13,10 +13,12 @@ import ChargerCard from '../../components/ChargerCard'
 import ChargerDetailsCard from '../../components/ChargerDetailsCard'
 import CHARGING_LEVELS from '../../data/chargers'
 import Hr from '../../components/styling/Hr'
-import { HARVARD_LOCATION } from '../../data/locations'
+import { RECENT_LOCATIONS, HARVARD_LOCATION } from '../../data/locations'
 import { ActivityIndicator, Modal, Portal, Provider } from 'react-native-paper';
 import { images } from '../../theme'
 import { Image } from 'react-native-elements'
+import { useFocusEffect } from '@react-navigation/native'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const styles = StyleSheet.create({
   root: {
@@ -120,6 +122,7 @@ function FoundView({ duration }) {
 }
 
 const Home = ({ navigation }) => {
+
   function DrivingView() {
     return (
       <>
@@ -155,6 +158,18 @@ const Home = ({ navigation }) => {
   const [driving, setDriving] = useState(false)
   const [chargeList, setChargeList] = useState([])
   const [confirmationVisible, setConfirmationVisible] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+
+  function Reset() {
+    setLocation(CURRENT_ORIGIN)
+    setFinding(false)
+    setFound(false)
+    setDuration(0)
+    setDriving(false)
+    setChargeList([])
+    setConfirmationVisible(false)
+  }
+
   const logout = () => {
     console.log(curr_user)
     dispatch(authenticate({ loggedIn: false, checked: true }))
@@ -162,13 +177,27 @@ const Home = ({ navigation }) => {
     finishCharge(curr_user.user_data.charges[0])
   }
 
+  function atBeginning() {
+    return location.latitude === CURRENT_ORIGIN.latitude && location.longitude === CURRENT_ORIGIN.longitude
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      Reset()
+    }, [])
+  )
+
+
   useEffect(() => {
-    if (location !== CURRENT_ORIGIN) {
+    if (!atBeginning()) {
+      console.log(location)
       setFinding(true)
       setTimeout(() => {
         setChargeList(HARVARD_LOCATION.chargeLevels)
         setFinding(false)
       }, 2000)
+    } else {
+      Reset()
     }
   }, [location])
 
@@ -212,6 +241,7 @@ const Home = ({ navigation }) => {
           destination={destination}
         />
         <View
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.bottomContainer}
         >
           {!found ? (
@@ -223,7 +253,60 @@ const Home = ({ navigation }) => {
               </Text>
               <GoogleAutoComplete
                 setLocation={setLocation}
+                setIsFocused={setIsFocused}
               />
+              {
+                (!isFocused && atBeginning()) && (
+                  <View
+                    style={{
+                      height: 260,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        marginBottom: 20,
+                      }}
+                    >
+                      Recent
+                    </Text>
+                    {
+                      RECENT_LOCATIONS.map((location, index) => (
+                        <>
+                          <Hr />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              marginBottom: 2,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                marginRight: 10,
+                              }}
+                            >
+                              <FontAwesome name="map-marker" size={18} color="black" />
+                              {' '}
+                              {' '}
+                            </Text>
+                            {location.title}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              color: 'gray',
+                              marginBottom: 20,
+                            }}
+                          >
+                            {location.subtitle}
+                          </Text>
+                        </>
+                      ))
+                    }
+                  </View>
+                )
+              }
               {finding ? (
                 <FindingView />
               )
@@ -247,6 +330,7 @@ const Home = ({ navigation }) => {
               <Button
                 onPress={() => {
                   navigation.navigate('Charging')
+                  Reset()
                 }}
               >
                 I've Arrived
@@ -270,7 +354,7 @@ const Home = ({ navigation }) => {
           }
         </View>
       </View>
-    </Provider>
+    </Provider >
   )
 }
 

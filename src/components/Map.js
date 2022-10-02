@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
 })
 
 export default function Map({ found, setDuration, currentLocation, destination }) {
-	console.log('currentLocation', currentLocation)
-	console.log('destination', destination)
 	const ref = useRef(null)
 	const [distance, setDistance] = useState(0)
 	const [chargers, setChargers] = useState([])

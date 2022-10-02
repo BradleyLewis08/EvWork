@@ -9,9 +9,21 @@ import {
   TextInput,
 } from 'react-native'
 import { RadioButton } from 'react-native-paper'
-import Button from 'components/Button'
 import { colors } from 'theme'
 import { useNavigation } from '@react-navigation/native'
+import { Button as PaperButton } from 'react-native-paper'
+import { theme } from '../../core/theme'
+
+export default function Button({ mode, style, ...props }) {
+  return (
+    <PaperButton
+      style={[styles.button, style]}
+      labelStyle={styles.text}
+      mode={mode}
+      {...props}
+    />
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -44,6 +56,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: '600',
   },
+  button: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: '#48BB78',
+  },
+  text: {
+    color: '#48BB78'
+  }
 })
 
 export const MyChargers = ({ route, navigation }) => {
@@ -73,7 +93,6 @@ export const MyChargers = ({ route, navigation }) => {
         </Text>
         <Text style={styles.body}>It’s that easy.</Text>
         <Button
-          color="#2F855A"
           children="Get Started"
           style={{
             marginTop: 20,
@@ -92,9 +111,6 @@ export const MyChargers = ({ route, navigation }) => {
 }
 
 export const Registration = ({ route, navigation }) => {
-  const from = route?.params?.from
-  const [checked, setChecked] = React.useState('1')
-
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
@@ -125,22 +141,10 @@ export const Registration = ({ route, navigation }) => {
           style={styles.input}
         />
         <Text style={styles.formTitle}>Charger Level</Text>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 14,
-            fontWeight: '300',
-            marginTop: -3,
-            marginBottom: 5,
-          }}
-        >
-          Please input the number only.
-        </Text>
         <TextInput placeholder="Level 2 or Level 3" style={styles.input} />
         <Text style={styles.formTitle}>Address</Text>
         <TextInput placeholder="Street, City, State Zip" style={styles.input} />
         <Button
-          color="#1A365D"
           children="Link Device"
           style={{
             marginTop: 10,
