@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Hr from './styling/Hr'
 
 const styles = StyleSheet.create({
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 		paddingBottom: 10,
 		marginBottom: 10,
+
 	},
 	title: {
 		fontSize: 16,
@@ -29,10 +30,9 @@ const styles = StyleSheet.create({
 	},
 })
 
-
-export default function ChargerCard({ level, amps, chargingTime, numAvailable, price, setFinding }) {
+export default function ChargerDetailsCard({ level, chargerType }) {
 	return (
-		<TouchableOpacity style={styles.container}
+		<View style={styles.container}
 			onPress={() => setFinding()}
 		>
 			<Text
@@ -43,19 +43,9 @@ export default function ChargerCard({ level, amps, chargingTime, numAvailable, p
 			<Text
 				style={styles.info}
 			>
-				{amps} Amps
+				{chargerType}
 			</Text>
 			<Hr />
-			<Text
-				style={styles.info}
-			>
-				{numAvailable} Available Charger{numAvailable > 1 ? 's' : ''}
-			</Text>
-			<Text
-				style={styles.info}
-			>
-				{`$${price.toFixed(2)}/kWh`}
-			</Text>
-		</TouchableOpacity>
+		</View>
 	)
 }

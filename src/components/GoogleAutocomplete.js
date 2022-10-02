@@ -3,7 +3,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 const API_KEY = 'AIzaSyAGpu98_X7yyeg2DqxgnyJP-A3rgKB8zMk'
 
-export default function GoogleAutoComplete() {
+export default function GoogleAutoComplete({ setLocation }) {
 	return (
 		<GooglePlacesAutocomplete
 			placeholder="Search"
@@ -30,6 +30,14 @@ export default function GoogleAutoComplete() {
 				predefinedPlacesDescription: {
 					color: '#1faadb',
 				},
+			}}
+			onPress={(data, details = null) => {
+				const coordinates = {
+					latitude: details.geometry.location.lat,
+					longitude: details.geometry.location.lng,
+				}
+				console.log(coordinates)
+				setLocation(coordinates)
 			}}
 		/>
 	)
